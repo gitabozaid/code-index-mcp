@@ -154,17 +154,17 @@ class SearchService(BaseService):
                 'reasoning': analysis['reasoning']
             }
         else:
-            # Use provided weights or defaults
+            # Use provided weights or defaults (80% Semantic / 20% BM25)
             if bm25_weight is None:
-                bm25_weight = 0.5
+                bm25_weight = 0.2
             if semantic_weight is None:
-                semantic_weight = 0.5
+                semantic_weight = 0.8
             weights_info = {
                 'auto_selected': False,
                 'bm25_weight': bm25_weight,
                 'semantic_weight': semantic_weight,
                 'query_type': 'manual',
-                'reasoning': 'Weights manually specified or using defaults'
+                'reasoning': 'Weights manually specified or using defaults (80% Semantic / 20% BM25)'
             }
 
         # Import hybrid search components
