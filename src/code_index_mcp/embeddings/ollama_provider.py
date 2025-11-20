@@ -67,11 +67,14 @@ class OllamaEmbeddingProvider(BaseEmbeddingProvider):
                 input=text
             )
 
-            # NEW API: Response format changed from 'embeddings' (array of arrays)
-            # to 'embedding' (single array)
-            # Old: {'embeddings': [[...]], ...}
-            # New: {'embedding': [...], ...}
-            embedding = response.get('embedding', [])
+            # API returns 'embeddings' (array of arrays) or 'embedding' (single array)
+            # Try both formats for compatibility
+            # Format 1: {'embeddings': [[...]], ...}  (current Ollama API)
+            # Format 2: {'embedding': [...], ...}      (future API?)
+            embedding = response.get('embedding')
+            if embedding is None:
+                embeddings = response.get('embeddings', [])
+                embedding = embeddings[0] if embeddings else []
 
             if not embedding:
                 raise RuntimeError("Empty embedding returned from Ollama")
@@ -156,7 +159,11 @@ class OllamaEmbeddingProvider(BaseEmbeddingProvider):
                 input="test"
             )
 
-            embedding = test_response.get('embedding', [])
+            # Try both API formats (embeddings array or embedding single)
+            embedding = test_response.get('embedding')
+            if embedding is None:
+                embeddings = test_response.get('embeddings', [])
+                embedding = embeddings[0] if embeddings else []
 
             if not embedding:
                 logger.warning(f"Ollama returned empty embedding for model {self.model}")
