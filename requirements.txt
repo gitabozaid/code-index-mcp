@@ -12,6 +12,8 @@ libclang>=16.0.0
 ollama>=0.3.0
 qdrant-client>=1.7.0
 numpy>=1.26.0
+# OpenAI embeddings support
+openai>=1.0.0
 # Additional Tree-sitter languages for code chunking
 tree-sitter-python>=0.21.0
 tree-sitter-go>=0.21.0
