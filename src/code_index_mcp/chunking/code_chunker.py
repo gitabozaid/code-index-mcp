@@ -40,7 +40,7 @@ class CodeChunker:
         LANGUAGES = {
             'python': Language(tspython.language()),
             'javascript': Language(tsjavascript.language()),
-            'typescript': Language(tstypescript.language()),
+            'typescript': Language(tstypescript.language_typescript()),
             'go': Language(tsgo.language()),
             'rust': Language(tsrust.language()),
             'java': Language(tsjava.language()),
