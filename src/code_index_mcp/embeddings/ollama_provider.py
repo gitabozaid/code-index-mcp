@@ -118,7 +118,11 @@ class OllamaEmbeddingProvider(BaseEmbeddingProvider):
                         input=text
                     )
 
-                    embedding = response.get('embedding', [])
+                    # Try both API formats (embeddings array or embedding single)
+                    embedding = response.get('embedding')
+                    if embedding is None:
+                        embeddings_array = response.get('embeddings', [])
+                        embedding = embeddings_array[0] if embeddings_array else []
 
                     if embedding:
                         embeddings.append(np.array(embedding, dtype=np.float32))

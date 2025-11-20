@@ -193,14 +193,14 @@ class QdrantStore:
                     ]
                 )
 
-            # Perform search
-            search_result = self.client.search(
+            # Perform search using query_points (new API)
+            search_result = self.client.query_points(
                 collection_name=self.collection_name,
-                query_vector=query_embedding.tolist(),
+                query=query_embedding.tolist(),
                 limit=limit,
                 score_threshold=score_threshold,
                 query_filter=search_filter
-            )
+            ).points
 
             # Format results
             results = []
