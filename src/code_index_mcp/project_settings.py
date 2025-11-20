@@ -23,15 +23,22 @@ from .search.ripgrep import RipgrepStrategy
 from .search.ag import AgStrategy
 from .search.grep import GrepStrategy
 from .search.basic import BasicSearchStrategy
+from .search.semantic_search import SemanticSearchStrategy
+from .search.hybrid_search import HybridSearchStrategy
 
 
 # Prioritized list of search strategies
+# BM25 strategies are checked for availability (binary presence)
+# Semantic and Hybrid strategies require additional configuration
 SEARCH_STRATEGY_CLASSES = [
     UgrepStrategy,
     RipgrepStrategy,
     AgStrategy,
     GrepStrategy,
     BasicSearchStrategy,
+    # Note: SemanticSearchStrategy and HybridSearchStrategy are not included here
+    # because they require special instantiation with configuration (OpenAI API key, Qdrant, etc.)
+    # They are created on-demand in SearchService when hybrid search is requested
 ]
 
 

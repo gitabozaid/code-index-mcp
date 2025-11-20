@@ -43,13 +43,27 @@ class SemanticSearchStrategy(SearchStrategy):
     def _initialize(self):
         """Initialize embedding provider and vector store."""
         try:
-            # Create embedding provider
-            embedding_config = {
-                'embedding_provider': self.config.get('embedding_provider', 'ollama'),
-                'model': self.config.get('ollama_model', 'nomic-embed-code'),
-                'url': self.config.get('ollama_url', 'http://localhost:11434'),
-                'dimension': self.config.get('vector_dim', 768),
-            }
+            # Get embedding provider type
+            provider_type = self.config.get('embedding_provider', 'ollama')
+
+            # Create embedding provider configuration based on provider type
+            if provider_type == 'openai':
+                embedding_config = {
+                    'embedding_provider': 'openai',
+                    'api_key': self.config.get('openai_api_key', ''),
+                    'model': self.config.get('openai_model', 'text-embedding-3-small'),
+                    'dimension': self.config.get('openai_dimension', 1536),
+                    'batch_size': self.config.get('openai_batch_size', 2048),
+                }
+                vector_dim = self.config.get('vector_dim', 1536)
+            else:  # ollama (default)
+                embedding_config = {
+                    'embedding_provider': 'ollama',
+                    'model': self.config.get('ollama_model', 'nomic-embed-code'),
+                    'url': self.config.get('ollama_url', 'http://localhost:11434'),
+                    'dimension': self.config.get('vector_dim', 768),
+                }
+                vector_dim = self.config.get('vector_dim', 768)
 
             self.embedding_provider = EmbeddingProviderFactory.create_from_env(embedding_config)
 
@@ -61,7 +75,7 @@ class SemanticSearchStrategy(SearchStrategy):
             self.vector_store = QdrantStore(
                 url=self.config.get('qdrant_url', 'http://localhost:6333'),
                 collection_name=self.config.get('qdrant_collection', 'code-embeddings'),
-                vector_dim=self.config.get('vector_dim', 768),
+                vector_dim=vector_dim,
                 distance_metric='cosine'
             )
 

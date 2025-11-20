@@ -5,6 +5,7 @@ from typing import Dict, Any, Optional
 
 from .base_provider import BaseEmbeddingProvider
 from .ollama_provider import OllamaEmbeddingProvider
+from .openai_provider import OpenAIEmbeddingProvider
 
 logger = logging.getLogger(__name__)
 
@@ -14,8 +15,8 @@ class EmbeddingProviderFactory:
 
     PROVIDERS = {
         'ollama': OllamaEmbeddingProvider,
+        'openai': OpenAIEmbeddingProvider,
         # Future providers can be added here:
-        # 'openai': OpenAIEmbeddingProvider,
         # 'voyage': VoyageEmbeddingProvider,
         # 'fastembed': FastEmbedProvider,
     }
