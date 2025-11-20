@@ -26,6 +26,7 @@ from .code_intelligence_service import CodeIntelligenceService
 from .system_management_service import SystemManagementService
 from .search_service import SearchService  # Already follows clean architecture
 from .settings_service import SettingsService
+from .semantic_search_service import SemanticSearchService  # Ollama + Qdrant semantic search
 
 # Simple Services
 from .file_service import FileService  # Simple file reading for resources
@@ -35,13 +36,14 @@ __all__ = [
     # New Architecture
     'BaseService',
     'ProjectManagementService',
-    'IndexManagementService', 
+    'IndexManagementService',
     'FileDiscoveryService',
     'CodeIntelligenceService',
     'SystemManagementService',
     'SearchService',
     'SettingsService',
-    
+    'SemanticSearchService',
+
     # Simple Services
     'FileService',  # Simple file reading for resources
     'FileWatcherService'  # Keep as low-level service
